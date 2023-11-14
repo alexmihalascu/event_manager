@@ -2,6 +2,12 @@
 include 'navbar.php';
 include 'db_config.php';
 
+// Check if user is not logged in
+if (!isset($_SESSION['username'])) {
+  header('Location: login.php');
+  exit;
+}
+
 // Query to get all events
 $sql = "SELECT * FROM events ORDER BY id DESC";
 $result = $conn->query($sql);
