@@ -66,11 +66,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 <div class="form-container">
-    <!-- HTML and form for updating profile -->
-    <form action="edit_profile.php" method="post" enctype="multipart/form-data">
-        Username: <input type="text" name="username" value="<?php echo $_SESSION['username']; ?>" disabled><br>
-        Password: <input type="password" name="password"><br>
-        Avatar: <input type="file" name="avatar"><br>
-        <input type="submit" value="Update Profile">
+    <h2 class="form-header">Edit Profile Tab</h2>
+    <form action="edit_profile.php" method="post" enctype="multipart/form-data" class="profile-form">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($_SESSION['username']); ?>" disabled>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+        </div>
+        <div class="form-group">
+            <label for="avatar">Avatar:</label>
+            <input type="file" id="avatar" name="avatar">
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Update Profile">
+        </div>
     </form>
 </div>
+

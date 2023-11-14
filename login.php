@@ -24,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['is_admin'] = $user['is_admin'];
             $_SESSION['avatar'] = $user['avatar'];
 
-            // Redirect to index.php
-            header('Location: index.php');
+            // Redirect to events_list.php
+            header('Location: edit_profile.php');
             exit;
         } else {
             $login_error = "Invalid password.";

@@ -181,54 +181,56 @@ form input[type="submit"] {
     object-fit: cover; /* keep aspect ratio within the circle */
 }
 
-/* This will apply to all forms within a .form-container */
 .form-container {
-    display: flex;
-    justify-content: center; /* Centers horizontally */
-    align-items: center; /* Centers vertically */
-    min-height: 100vh; /* At least the full height of the viewport */
-  }
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
 
+.form-header {
+  margin-bottom: 20px;
+  color: #333;
+}
 
-  
-  form {
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 5px;
-    background: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* The following rule is not necessary for centering but it's a good practice to limit the width of forms */
-  form {
-    width: 100%; /* Full width */
-    max-width: 400px; /* Maximum width */
-    margin: 0 auto; /* Auto margins for horizontal centering if not using flexbox on the container */
-  }
-  
-  /* Additional styling for inputs and button for a better look */
-  input[type=text],
-  input[type=password] {
-    width: calc(100% - 20px);
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  input[type=submit] {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #5cb85c;
-    color: white;
-    cursor: pointer;
-  }
-  
-  input[type=submit]:hover {
-    background-color: #4cae4c;
-  }
+.profile-form .form-group {
+  margin-bottom: 15px;
+}
+
+.profile-form label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.profile-form input[type="text"],
+.profile-form input[type="password"],
+.profile-form input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.profile-form input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #5cb85c;
+  color: white;
+  cursor: pointer;
+}
+
+.profile-form input[type="submit"]:hover {
+  background-color: #4cae4c;
+}
+
   
   /* Event card styles */
 .event-container {
