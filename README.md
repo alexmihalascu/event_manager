@@ -5,7 +5,8 @@ Event Manager este un proiect dedicat gestionării și organizării evenimentelo
 
 ## Imagini din Aplicație
 
-![Imagine Aplicație 1]([https://i.imgur.com/JDB7tnp.png](https://i.imgur.com/eJsXZ1h.jpeg)
+![Imagine Aplicație 1]
+![Imagine Aplicație 1](https://i.imgur.com/eJsXZ1h.jpeg)
 
 ## Funcționalități
 Descrie aici funcționalitățile principale ale aplicației tale.
