@@ -1,41 +1,49 @@
 <?php
-// Start the session
 session_start();
 include 'db_config.php';
 
-// Process the form submission
+function sanitizeInput($data) {
+    return htmlspecialchars(stripslashes(trim($data)));
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $conn->real_escape_string($_POST['username']);
+    $username = sanitizeInput($_POST['username']);
     $password = $_POST['password'];
 
-    // Prepare SQL to prevent SQL injection
-    $sql = "SELECT * FROM users WHERE username = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('s', $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // Modify the SQL query to include a JOIN with the profiles table
+    $sql = "SELECT users.*, profiles.avatar FROM users LEFT JOIN profiles ON users.id = profiles.user_id WHERE users.username = ?";
+    if ($stmt = $conn->prepare($sql)) {
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        if (password_verify($password, $user['password'])) {
-            // Set session variables
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['is_admin'] = $user['is_admin'];
-            $_SESSION['avatar'] = $user['avatar'];
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+            if (password_verify($password, $user['password'])) {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['is_admin'] = $user['is_admin'];
 
-            // Redirect to events_list.php
-            header('Location: edit_profile.php');
-            exit;
+                // Fetch the avatar from the profiles table
+                $_SESSION['avatar'] = $user['avatar'] ?? 'defaultavatar.png';
+
+                header('Location: index.php');
+                exit;
+            } else {
+                $login_error = "Invalid password.";
+            }
         } else {
-            $login_error = "Invalid password.";
+            $login_error = "Username does not exist.";
         }
+        $stmt->close();
     } else {
-        $login_error = "Username does not exist.";
+        echo "Error preparing SQL statement.";
     }
 }
+
 include 'navbar.php';
 ?>
+
 <link rel="stylesheet" href="style.css">
 
 <div class="login-page">
@@ -44,7 +52,6 @@ include 'navbar.php';
             <?php echo $login_error; ?>
         </div>
     <?php endif; ?>
-
     <div class="form-container">
         <form method="post" action="login.php">
             <h1>Login</h1>
@@ -62,13 +69,3 @@ include 'navbar.php';
         </form>
     </div>
 </div>
-
-<script>
-// If there's an error message, we want to clear it after 5 seconds
-const errorMessage = document.getElementById('error-message');
-if (errorMessage) {
-    setTimeout(() => {
-        errorMessage.style.display = 'none';
-    }, 5000); // 5000 milliseconds = 5 seconds
-}
-</script>

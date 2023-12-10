@@ -4,7 +4,6 @@ session_start();
 
 // Check if the user is logged in and is an admin
 if (!isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
-    // Redirect to the login page or home page
     header('Location: index.php');
     exit;
 }
@@ -13,33 +12,38 @@ if (!isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $event_id = $_GET['id'];
 
-    // Prepare a delete statement
-    $sql = "DELETE FROM events WHERE id = ?";
+    // Start a transaction
+    $conn->begin_transaction();
 
-    if ($stmt = $conn->prepare($sql)) {
-        // Bind variables to the prepared statement as parameters
-        $stmt->bind_param("i", $param_id);
-
-        // Set parameters
-        $param_id = $event_id;
-
-        // Attempt to execute the prepared statement
-        if ($stmt->execute()) {
-            // Records deleted successfully. Redirect to landing page
-            header("Location: events_list.php");
-            exit();
-        } else {
-            echo "Oops! Something went wrong. Please try again later.";
+    try {
+        // First delete comments associated with the event
+        $sqlComments = "DELETE FROM comments WHERE event_id = ?";
+        if ($stmtComments = $conn->prepare($sqlComments)) {
+            $stmtComments->bind_param("i", $event_id);
+            $stmtComments->execute();
+            $stmtComments->close();
         }
 
-        // Close statement
-        $stmt->close();
+        // Then delete the event itself
+        $sqlEvent = "DELETE FROM events WHERE id = ?";
+        if ($stmtEvent = $conn->prepare($sqlEvent)) {
+            $stmtEvent->bind_param("i", $event_id);
+            $stmtEvent->execute();
+            $stmtEvent->close();
+        }
+
+        // Commit the transaction
+        $conn->commit();
+        header("Location: events_list.php");
+        exit();
+    } catch (mysqli_sql_exception $exception) {
+        // An error occurred, rollback the transaction
+        $conn->rollback();
+        echo "Oops! Something went wrong. Please try again later.";
     }
 } else {
-    // If the id is not set or is not valid, do not do anything
     echo "Invalid request.";
 }
 
-// Close connection
 $conn->close();
 ?>

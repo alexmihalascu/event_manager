@@ -1,16 +1,14 @@
 <?php
-session_start(); // Start the session
-
-include 'navbar.php'; 
-
-// Check if the user is logged in
-if (isset($_SESSION['username']) || isset($_SESSION['user_id'])) {
-    // If logged in, redirect to events_list.php
-    header('Location: events_list.php');
-    exit;
-} else {
-    // If not logged in, redirect to login.php
-    header('Location: login.php');
-    exit;
-}
+include 'navbar.php';
+include 'db_config.php';
+include 'home.php';
 ?>
+<link rel="stylesheet" href="style.css">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+</html>

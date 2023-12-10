@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Check if the user is logged in, otherwise redirect to login page
+// Verifică dacă utilizatorul este autentificat, altfel redirecționează către pagina de autentificare
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
@@ -10,17 +10,18 @@ if (!isset($_SESSION['user_id'])) {
 include 'db_config.php';
 include 'navbar.php';
 
-// Process form submission
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_SESSION['username']; // Retrieve the username from the session
+$user_id = $_SESSION['user_id']; // Presupunem că acesta este ID-ul utilizatorului
 
-    // Check if the password field is not empty
+// Procesează trimiterea formularului
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = $_SESSION['username']; // Obține numele de utilizator din sesiune
+
+    // Verifică dacă câmpul pentru parolă nu este gol
     if (!empty($_POST['password'])) {
         $password = $_POST['password'];
-        // Hash the new password here
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        // Update the password in the database
+        // Actualizează parola în baza de date
         $updatePasswordSql = "UPDATE users SET password = ? WHERE username = ?";
         $stmt = $conn->prepare($updatePasswordSql);
         $stmt->bind_param("ss", $hashedPassword, $username);
@@ -28,61 +29,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->close();
     }
 
-    // Handle the avatar upload if a file was given
+    // Gestionarea încărcării avatarului, dacă există un fișier
     if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] == UPLOAD_ERR_OK) {
         $tmp_name = $_FILES['avatar']['tmp_name'];
         $originalName = basename($_FILES['avatar']['name']);
-        $ext = pathinfo($originalName, PATHINFO_EXTENSION); // Get the file extension
+        $ext = pathinfo($originalName, PATHINFO_EXTENSION);
         $newName = $username . "_avatar." . $ext;
         $destination = "uploads/avatars/" . $newName;
 
-        // Attempt to move the uploaded file to the destination
         if (move_uploaded_file($tmp_name, $destination)) {
-            $_SESSION['avatar'] = $newName;
-            $stmt = $conn->prepare("UPDATE users SET avatar = ? WHERE username = ?");
-            $stmt->bind_param("ss", $newName, $username);
-            $stmt->execute();
-            $stmt->close();
+            // Actualizează avatarul în tabelul profiles
+            $updateAvatarSql = "UPDATE profiles SET avatar = ? WHERE user_id = ?";
+            if ($stmt = $conn->prepare($updateAvatarSql)) {
+                $stmt->bind_param("si", $newName, $user_id);
+                $stmt->execute();
+                $stmt->close();
+            }
+            $_SESSION['avatar'] = $newName; // Actualizează avatarul în sesiune
         } else {
             echo "Failed to upload avatar.";
         }
-        if (isset($_FILES['event_photo']) && $_FILES['event_photo']['error'] == 0) {
-            $uploadDir = 'uploads/';
-            $uploadFile = $uploadDir . basename($_FILES['event_photo']['name']);
-            
-            if (move_uploaded_file($_FILES['event_photo']['tmp_name'], $uploadFile)) {
-                // Save $uploadFile to the database along with other event details
-                $photoPath = $conn->real_escape_string($uploadFile);
-                // Update your SQL insert/update statement to include the photo path
-            } else {
-                // Handle error
-                echo "An error occurred while uploading the file.";
-            }
-        }
-        
     }
 
     echo "Profile updated successfully.";
 }
 ?>
+
+<link rel="stylesheet" href="style.css">
+
 <div class="form-container">
-    <h2 class="form-header">Edit Profile Tab</h2>
-    <form action="edit_profile.php" method="post" enctype="multipart/form-data" class="profile-form">
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($_SESSION['username']); ?>" disabled>
-        </div>
-        <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password">
-        </div>
-        <div class="form-group">
-            <label for="avatar">Avatar:</label>
-            <input type="file" id="avatar" name="avatar">
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Update Profile">
-        </div>
+    <form action="edit_profile.php" method="post" enctype="multipart/form-data">
+        <h1>Edit Profile</h1>
+        Username: <input type="text" name="username" value="<?php echo $_SESSION['username']; ?>" disabled><br>
+        Password: <input type="password" name="password"><br>
+        Avatar: <input type="file" name="avatar"><br>
+        <input type="submit" value="Update Profile">
     </form>
 </div>
-
