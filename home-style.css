@@ -81,11 +81,7 @@ a.btn:hover, button:hover {
     background-color: #0056b3;
 }
 
-h1{
-    text-align: center;
-}
-
-p{
+h1, p {
     text-align: center;
 }
 
@@ -97,5 +93,26 @@ p{
 
     nav a {
         margin-bottom: 5px;
+    }
+
+    .container, .about-section, .recent-events, .contact-section {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .about-section, .recent-events, .contact-section {
+        margin: 10px 0;
+    }
+
+    /* Adjust text size for smaller screens if necessary */
+    h1, p {
+        font-size: smaller;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    /* Additional adjustments for very small screens */
+    nav a {
+        padding: 8px;
     }
 }

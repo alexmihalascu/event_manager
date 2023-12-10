@@ -310,23 +310,6 @@ background-color: #4cae4c;
 }
 
 
-
-
-/* Responsive behavior */
-@media (max-width: 768px) {
-  .event-card {
-    width: calc(50% - 20px); /* Two cards per row on smaller screens */
-  }
-}
-
-@media (max-width: 480px) {
-  .event-card {
-    width: 100%; /* One card per row on very small screens */
-  }
-}
-
-
-
 /* Formularul de comentarii */
 .comment-form textarea {
   width: 100%;
@@ -351,4 +334,71 @@ background-color: #4cae4c;
   padding: 10px;
   margin-top: 10px;
   border-radius: 4px;
+}
+
+/* Existing styles ... */
+
+/* Responsive Navigation Bar */
+@media screen and (max-width: 768px) {
+  nav {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .navbar-right {
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10px;
+  }
+
+  nav a {
+      margin: 5px 0;
+      padding: 10px 5px;
+  }
+}
+
+/* Responsive Event Cards */
+@media screen and (max-width: 768px) {
+  .events-container {
+      justify-content: space-around;
+  }
+
+  .event-card {
+      width: 45%; /* Adjust for medium screens */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .event-card {
+      width: 90%; /* Full width on small screens */
+  }
+}
+
+/* Responsive Forms */
+@media screen and (max-width: 768px) {
+  form {
+      width: 90%;
+      padding: 15px;
+  }
+}
+
+/* General Layout Adjustments */
+@media screen and (max-width: 480px) {
+  body {
+      padding-top: 20px; /* Adjust padding for smaller screens */
+  }
+
+  .navbar-avatar, .navbar-user-avatar {
+      display: none; /* Optionally hide avatars on very small screens */
+  }
+
+  .form-container, .comments-section, .event-details-card {
+      width: 95%;
+      margin: 10px auto;
+      padding: 15px;
+  }
+
+  .comment-form textarea {
+      padding: 8px;
+  }
 }
