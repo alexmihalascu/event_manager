@@ -402,3 +402,58 @@ background-color: #4cae4c;
       padding: 8px;
   }
 }
+.comment {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Spațiu între comentarii */
+}
+
+.comment-avatar img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%; /* Formă circulară */
+  margin-right: 10px;
+}
+
+.comment-text {
+  flex-grow: 1;
+}
+
+.comments-section {
+  margin-top: 20px;
+}
+
+.comment {
+  display: flex;
+  align-items: flex-start; /* Aliniază avatarul cu partea de sus a comentariului */
+  margin-bottom: 15px;
+  background: #f8f8f8; /* Fundal pentru comentarii */
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.comment-avatar {
+  margin-right: 10px;
+}
+
+.comment-avatar img {
+  width: 40px; /* Mărimea icoanei avatar */
+  height: 40px;
+  border-radius: 50%; /* Formă circulară */
+}
+
+.comment-content {
+  flex: 1;
+}
+
+.delete-comment {
+  display: block; /* Sau inline-block, dacă preferi */
+  margin-top: 10px;
+  color: #ff0000; /* Sau orice altă culoare preferi pentru butonul de ștergere */
+  text-decoration: none;
+}
+
+.delete-comment:hover {
+  text-decoration: underline;
+}
+

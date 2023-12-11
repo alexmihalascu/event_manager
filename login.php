@@ -44,7 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 include 'navbar.php';
 ?>
 
+<head>
+<meta rel="icon" href="uploads/icons/icon.ico">
 <link rel="stylesheet" href="style.css">
+</head>
+
+
 
 <div class="login-page">
     <?php if (isset($login_error)): ?>
