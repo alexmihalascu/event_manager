@@ -1,5 +1,7 @@
 # event_manager
 
+Live demo: event.mhlsq.me
+
 Database scheme:
 ![image](https://github.com/alexmihalascu/event_manager/assets/41302353/8cf69914-c24d-4373-ac83-aeebe6972946)
 ![image](https://github.com/alexmihalascu/event_manager/assets/41302353/5e180e54-7779-49c1-ac08-d7aa5a137f30)
