@@ -2,11 +2,11 @@
 include 'navbar.php';
 include 'db_config.php';
 
-function sanitizeInput($data) {
+function sanitizeInput($data)
+{
     return htmlspecialchars(stripslashes(trim($data)));
 }
 
-// Încărcăm categoriile pentru formular
 $categoriesQuery = "SELECT id, name FROM categories";
 $categoriesResult = $conn->query($categoriesQuery);
 $categories = [];
@@ -15,16 +15,14 @@ while ($row = $categoriesResult->fetch_assoc()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Sanitize and validate inputs
     $name = sanitizeInput($_POST['name']);
     $location = sanitizeInput($_POST['location']);
     $event_date = sanitizeInput($_POST['event_date']);
     $event_time = sanitizeInput($_POST['event_time']);
     $price = filter_var($_POST['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $category_id = isset($_POST['category_id']) ? (int)$_POST['category_id'] : null;
-
-    // Insert the event without the photo
     $sql = "INSERT INTO events (name, location, event_date, event_time, price, category_id) VALUES (?, ?, ?, ?, ?, ?)";
+
     if ($stmt = $conn->prepare($sql)) {
         $stmt->bind_param("ssssdi", $name, $location, $event_date, $event_time, $price, $category_id);
         if (!$stmt->execute()) {
@@ -37,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
 
-    // Handle the uploaded photo if it exists
     if (isset($_FILES['event_photo']) && $_FILES['event_photo']['error'] == 0) {
         $target_dir = "uploads/events/";
         $imageFileType = strtolower(pathinfo($_FILES['event_photo']['name'], PATHINFO_EXTENSION));
@@ -91,9 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="number" id="price" step="0.01" name="price" required>
         </div>
         <div class="form-group">
-        <label for="category_id">Category:</label>
+            <label for="category_id">Category:</label>
             <select id="category_id" name="category_id" required>
-                <?php foreach ($categories as $id => $name): ?>
+                <?php foreach ($categories as $id => $name) : ?>
                     <option value="<?php echo $id; ?>"><?php echo htmlspecialchars($name); ?></option>
                 <?php endforeach; ?>
             </select>

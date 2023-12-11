@@ -457,3 +457,113 @@ background-color: #4cae4c;
   text-decoration: underline;
 }
 
+
+/* Card styling */
+.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 800px;
+  overflow: hidden;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  table-layout: fixed;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f8f8f8;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Table header styling */
+th {
+  color: #333;
+}
+
+/* Right aligned actions */
+td.actions {
+  text-align: center;
+}
+
+/* Links styling */
+a {
+  text-decoration: none;
+  color: #007bff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+a:hover {
+  background-color: #e8f0fe;
+}
+
+/* Button styling for actions */
+.promote-button, .demote-button, .delete-button {
+  cursor: pointer;
+  margin-left: 5px;
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px; /* Rounded edges */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px #999; /* 3D effect */
+}
+
+.promote-button {
+  background-color: #28a745; /* Green */
+}
+
+.demote-button {
+  background-color: #ffc107; /* Yellow */
+}
+
+.delete-button {
+  background-color: #dc3545; /* Red */
+}
+
+.promote-button:hover, .demote-button:hover, .delete-button:hover {
+  background-color: #0056b3; /* Darker shade when hovered */
+  box-shadow: 0 2px #666; /* 3D effect on hover */
+  transform: translateY(2px); /* Move up slightly when hovered */
+}
+
+/*Reponsive design adjustments */
+@media (max-width: 768px) {
+  body {
+      padding: 10px;
+  }
+
+  .card {
+      margin: 10px;
+  }
+
+  table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+  }
+
+  td, th {
+      white-space: nowrap;
+  }
+}

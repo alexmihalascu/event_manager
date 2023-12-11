@@ -2,7 +2,8 @@
 session_start();
 include 'db_config.php';
 
-function sanitizeInput($data) {
+function sanitizeInput($data)
+{
     return htmlspecialchars(stripslashes(trim($data)));
 }
 
@@ -45,14 +46,14 @@ include 'navbar.php';
 ?>
 
 <head>
-<meta rel="icon" href="uploads/icons/icon.ico">
-<link rel="stylesheet" href="style.css">
+    <meta rel="icon" href="uploads/icons/icon.ico">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 
 
 <div class="login-page">
-    <?php if (isset($login_error)): ?>
+    <?php if (isset($login_error)) : ?>
         <div class="error-card" id="error-message">
             <?php echo $login_error; ?>
         </div>

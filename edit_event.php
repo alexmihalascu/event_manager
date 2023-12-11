@@ -3,8 +3,6 @@ include 'navbar.php';
 include 'db_config.php';
 
 $targetDir = "uploads/events/";
-
-// Încărcăm categoriile pentru dropdown
 $categoriesQuery = "SELECT id, name FROM categories";
 $categoriesResult = $conn->query($categoriesQuery);
 $categories = [];
@@ -42,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $category_id = isset($_POST['category_id']) ? $_POST['category_id'] : null;
 
     $photoUpdated = false;
-    $newFilePath = $event['photo']; // Presupunem că fotografia rămâne neschimbată inițial
+    $newFilePath = $event['photo'];
 
     if (isset($_FILES['event_photo']) && $_FILES['event_photo']['error'] == 0) {
         $imageFileType = strtolower(pathinfo($_FILES['event_photo']['name'], PATHINFO_EXTENSION));
@@ -113,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="form-group">
             <label for="category_id">Category:</label>
             <select id="category_id" name="category_id">
-                <?php foreach ($categories as $id => $name): ?>
+                <?php foreach ($categories as $id => $name) : ?>
                     <option value="<?php echo $id; ?>" <?php echo $id == $event['category_id'] ? 'selected' : ''; ?>>
                         <?php echo htmlspecialchars($name); ?>
                     </option>
@@ -123,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="form-group">
             <label for="event_photo">Event Photo:</label>
-            <?php if (!empty($event['photo'])): ?>
+            <?php if (!empty($event['photo'])) : ?>
                 <img src="<?php echo htmlspecialchars($event['photo']); ?>" alt="Event Photo" style="max-width: 200px; display: block; margin-bottom: 10px;">
             <?php endif; ?>
             <input type="file" id="event_photo" name="event_photo">

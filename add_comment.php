@@ -14,8 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_id'])) {
         $stmt->close();
     }
 
-    // Redirecționează înapoi la pagina evenimentului (modificați după nevoie)
     header("Location: event_details.php?id=" . $eventId);
     exit();
 }
-?>

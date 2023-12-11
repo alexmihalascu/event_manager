@@ -6,6 +6,7 @@ include 'db_config.php';
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta rel="icon" href="uploads/icons/icon.ico">
     <meta charset="UTF-8">
@@ -13,11 +14,10 @@ include 'db_config.php';
     <title>Acasă - Events Manager</title>
     <link rel="stylesheet" href="home-style.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Welcome to Events Manager</h1>
-
-        <!-- Adaugă aici secțiuni specifice paginii home, cum ar fi despre noi, evenimente recente etc. -->
         <section class="about-section">
             <h1>Streamline Your Event Management with the Events Manager App</h1>
             <h2>Effortless Event Creation</h2>
@@ -29,4 +29,5 @@ include 'db_config.php';
         </section>
     </div>
 </body>
+
 </html>
