@@ -11,37 +11,46 @@ $sql = "SELECT events.*, categories.name AS category_name FROM events JOIN categ
 $result = $conn->query($sql);
 ?>
 
-<link rel="stylesheet" href="style.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Events List</title>
+</head>
+<body>
 
-<div class="events-container">
-    <?php
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            echo "<div class='event-card'>";
-            echo "<div class='event-image'>";
-            if ($row["photo"] && file_exists($row["photo"])) {
-                echo "<img src='" . htmlspecialchars($row["photo"]) . "' alt='Event Photo'>";
-            } else {
-                echo "<img src='uploads/events/default_event.png' alt='Default Event Image'>";
+<div class="container py-5 mt-5">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <?php
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<div class='col'>";
+                echo "<div class='card h-100'>";
+                echo "<img src='" . htmlspecialchars($row["photo"] ? $row["photo"] : 'uploads/events/default_event.png') . "' class='card-img-top' alt='Event Photo'>";
+                echo "<div class='card-body'>";
+                echo "<h5 class='card-title'>" . htmlspecialchars($row["name"]) . "</h5>";
+                echo "<p class='card-text'><strong>Category:</strong> " . htmlspecialchars($row["category_name"]) . "</p>";
+                echo "<p class='card-text'><strong>Location:</strong> " . htmlspecialchars($row["location"]) . "</p>";
+                echo "<p class='card-text'><strong>Date:</strong> " . htmlspecialchars(date('d.m.Y', strtotime($row["event_date"]))) . "</p>";
+                echo "<p class='card-text'><strong>Time:</strong> " . htmlspecialchars(date('H:i', strtotime($row["event_time"]))) . "</p>";
+                echo "<p class='card-text'><strong>Price:</strong> " . htmlspecialchars(number_format($row["price"])) . " Lei</p>";
+                echo "</div>";
+                echo "<div class='card-footer'>";
+                echo "<a href='event_details.php?id=" . $row["id"] . "' class='btn btn-primary btn-block'>View more details</a>";
+                echo "</div>";
+                echo "</div>"; // card
+                echo "</div>"; // col
             }
-            echo "</div>";
-            echo "<h3>" . htmlspecialchars($row["name"]) . "</h3>";
-            echo "<p>Category: " . htmlspecialchars($row["category_name"]) . "</p>";
-            echo "<p>Location: " . htmlspecialchars($row["location"]) . "</p>";
-            $formattedDate = date('d.m.Y', strtotime($row["event_date"]));
-            echo "<p>Date: " . htmlspecialchars($formattedDate) . "</p>";
-            $formattedTime = date('H:i', strtotime($row["event_time"]));
-            echo "<p>Time: " . htmlspecialchars($formattedTime) . "</p>";
-            echo "<p>Price: " . htmlspecialchars(number_format($row["price"])) . " Lei</p>";
-            echo "<a href='event_details.php?id=" . $row["id"] . "' class='edit-button'>View Comments</a>";
-            if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
-                echo "<a href='edit_event.php?id=" . $row["id"] . "' class='edit-button'>Edit</a>";
-                echo "<a href='delete_event.php?id=" . $row["id"] . "' class='delete-button' onclick='return confirm(\"Are you sure you want to delete this event?\");'>Delete</a>";
-            }
-            echo "</div>";
+        } else {
+            echo "<p class='no-events'>No events found.</p>";
         }
-    } else {
-        echo "<p class='no-events'>No events found.</p>";
-    }
-    ?>
+        ?>
+    </div>
 </div>
+
+<!-- Include Bootstrap JS and Popper.js for Bootstrap functionality -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

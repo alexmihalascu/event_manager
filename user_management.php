@@ -13,6 +13,7 @@ if (!isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
     exit;
 }
 
+// Function to toggle admin status
 function toggleAdminStatus($userId, $makeAdmin)
 {
     global $conn;
@@ -24,6 +25,7 @@ function toggleAdminStatus($userId, $makeAdmin)
     }
 }
 
+// Function to delete a user
 function deleteUser($userId)
 {
     global $conn;
@@ -31,6 +33,7 @@ function deleteUser($userId)
     $conn->begin_transaction();
 
     try {
+        // Delete comments made by the user
         $commentsSql = "DELETE FROM comments WHERE user_id = ?";
         if ($commentsStmt = $conn->prepare($commentsSql)) {
             $commentsStmt->bind_param("i", $userId);
@@ -38,6 +41,7 @@ function deleteUser($userId)
             $commentsStmt->close();
         }
 
+        // Delete the user's profile
         $profileSql = "DELETE FROM profiles WHERE user_id = ?";
         if ($profileStmt = $conn->prepare($profileSql)) {
             $profileStmt->bind_param("i", $userId);
@@ -45,6 +49,7 @@ function deleteUser($userId)
             $profileStmt->close();
         }
 
+        // Delete the user
         $userSql = "DELETE FROM users WHERE id = ?";
         if ($userStmt = $conn->prepare($userSql)) {
             $userStmt->bind_param("i", $userId);
@@ -52,6 +57,7 @@ function deleteUser($userId)
             $userStmt->close();
         }
 
+        // Commit transaction
         $conn->commit();
     } catch (Exception $e) {
         $conn->rollback();
@@ -78,41 +84,46 @@ $result = $conn->query($sql);
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>User Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <?php include 'navbar.php'; ?>
-    <div class="card">
-        <h1>User Management</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th class="actions">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($user = $result->fetch_assoc()) : ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($user['username']); ?></td>
-                        <td class="actions">
-                            <?php if ($user['is_admin']) : ?>
-                                <a href="user_management.php?toggleAdmin=0&userId=<?php echo $user['id']; ?>" class="demote-button">Demote from Admin</a>
-                            <?php else : ?>
-                                <a href="user_management.php?toggleAdmin=1&userId=<?php echo $user['id']; ?>" class="promote-button">Promote to Admin</a>
-                            <?php endif; ?>
-                            <a href="user_management.php?deleteUser=1&userId=<?php echo $user['id']; ?>" class="delete-button" onclick="return confirm('Are you sure you want to delete this user?');">Delete User</a>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-body">
+            <h1 class="text-center">User Management</h1>
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Username</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($user = $result->fetch_assoc()) : ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($user['username']); ?></td>
+                                <td class="text-end">
+                                    <?php if ($user['is_admin']) : ?>
+                                        <a href="user_management.php?toggleAdmin=0&userId=<?php echo $user['id']; ?>" class="btn btn-warning btn-sm me-2">Demote to User</a>
+                                    <?php else : ?>
+                                        <a href="user_management.php?toggleAdmin=1&userId=<?php echo $user['id']; ?>" class="btn btn-success btn-sm me-2">Promote to Admin</a>
+                                    <?php endif; ?>
+                                    <a href="user_management.php?deleteUser=1&userId=<?php echo $user['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete User</a>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</body>
 
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

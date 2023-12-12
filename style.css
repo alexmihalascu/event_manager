@@ -1,107 +1,56 @@
-/* Reset some default styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      /* 3D Effect Styles */
+      .card-3d {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 20px 60px rgba(0, 0, 0, 0.3); /* Double-layered shadow for depth */
+        border-radius: 1rem;
+        transition: box-shadow 0.3s ease;
+      }
+
+      .card-3d:hover {
+          box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4), 0 25px 75px rgba(0, 0, 0, 0.4); /* Slightly deeper shadow on hover */
+      }
+
+      .form-control-lg {
+          background-color: 0 0 15px rgba(255, 255, 255, 0.4);
+          border: none;
+      }
+
+      .form-label {
+          margin-left: 10px;
+      }
+
+      .btn-outline-light {
+          border-width: 2px;
+          box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); /* Glowing effect for button */
+      }
+
+
+
+
+    /* Custom styles for event cards */
+.card {
+  /* Add modern styles here, e.g., box shadow, border radius */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.card-img-top {
+  height: 400px; /* Fixed height for all images */
+  width: 100%; /* Full width of the card */
+  object-fit: cover; /* Ensures the image covers the area nicely */
+}
+.btn-block {
+  width: 100%; /* Make buttons full width */
+  margin-top: 5px; /* Optional: add some space between buttons */
 }
 
-body {
-  background-color: #f4f4f4;
-  font-size: 16px;
-  line-height: 1.6;
-  padding-top: 50px; /* Add padding to account for fixed navbar */
+.card-footer {
+  padding: 0; /* Remove default padding */
 }
 
-nav {
-  background-color: #333;
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
+.card-footer .btn {
+  border-radius: 0; /* Optional: make buttons without rounded corners */
 }
 
-nav a {
-  color: #fff;
-  text-decoration: none;
-  margin-left: 10px;
-  padding: 5px 10px;
-  transition: background-color 0.3s ease-in-out;
-}
-
-nav a:hover {
-  background-color: #555;
-}
-
-.navbar-right {
-  display: flex;
-  align-items: center;
-}
-
-.error {
-  color: red;
-  margin: 10px 0;
-}
-
-form {
-  max-width: 300px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-form input[type="text"],
-form input[type="password"],
-form input[type="submit"] {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  transition: border-color 0.3s ease-in-out;
-}
-
-form input[type="text"]:focus,
-form input[type="password"]:focus {
-  border-color: #007bff;
-}
-
-form input[type="submit"] {
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
-  border: none;
-}
-
-form input[type="submit"]:hover {
-  background-color: #0056b3;
-}
-
-/* Add a simple animation to form elements */
-form input[type="text"],
-form input[type="password"],
-form input[type="submit"] {
-  animation: enter 0.5s ease forwards;
-}
-
-@keyframes enter {
-  from {
-      opacity: 0;
-      transform: translateY(-10px);
-  }
-  to {
-      opacity: 1;
-      transform: translateY(0);
-  }
-}
 
 /* Event list styling */
 .events-container {
@@ -164,6 +113,24 @@ form input[type="submit"] {
 .event-card-actions a:hover {
   background-color: #0056b3;
 }
+.event-detail {
+  font-weight: normal;
+  color: #555; /* Adjust color as needed */
+}
+
+.comment-form textarea {
+  resize: none;
+}
+
+.comments-section {
+  margin-top: 20px;
+}
+
+.user-actions button, .admin-actions a {
+  width: 100%; /* Full width buttons */
+  margin-bottom: 10px;
+}
+
 
 /* Existing styles */
 
@@ -511,7 +478,7 @@ a {
 }
 
 a:hover {
-  background-color: #e8f0fe;
+  background-color: #212529;
 }
 
 /* Button styling for actions */
@@ -539,6 +506,10 @@ a:hover {
 
 .delete-button {
   background-color: #dc3545; /* Red */
+}
+
+.attend-button {
+  background-color: #007bff; /* Blue */
 }
 
 .promote-button:hover, .demote-button:hover, .delete-button:hover {

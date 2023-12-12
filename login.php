@@ -45,33 +45,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 include 'navbar.php';
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <meta rel="icon" href="uploads/icons/icon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 
+<body>
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-dark text-white card-3d">
+                    <div class="card-body p-5 text-center">
+                        <div class="mb-md-5 mt-md-4 pb-5">
+                        <form method="post" action="login.php">
+                            <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                            <p class="text-white-50 mb-5">Please enter your username and password!</p>
 
+                                <div class="form-outline form-white mb-4">
+                                    <label class="form-label" for="username">Username</label>
+                                    <input type="text" id="username" name="username" class="form-control form-control-lg" required />
+                                </div>
 
-<div class="login-page">
-    <?php if (isset($login_error)) : ?>
-        <div class="error-card" id="error-message">
-            <?php echo $login_error; ?>
+                                <div class="form-outline form-white mb-4">
+                                    <label class="form-label" for="password">Password</label>
+                                    <input type="password" id="password" name="password" class="form-control form-control-lg" required />
+                                </div>
+
+                                <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    <?php endif; ?>
-    <div class="form-container">
-        <form method="post" action="login.php">
-            <h1>Login</h1>
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Login">
-            </div>
-        </form>
-    </div>
-</div>
+    </section>
+</body>
+
+</html>
