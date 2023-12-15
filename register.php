@@ -2,6 +2,11 @@
 include 'navbar.php';
 include 'db_config.php';
 
+if (isset($_SESSION['user_id'])) {
+    header('Location: index.php');
+    exit();
+}
+
 function sanitizeInput($data)
 {
     return htmlspecialchars(stripslashes(trim($data)));

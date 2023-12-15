@@ -2,15 +2,18 @@
 session_start();
 include 'db_config.php';
 include 'navbar.php';
+
 // Check if the user is not logged in, redirect to login page
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
 
-
-// ...
+// Fetch promoted events
+$promotedEventsQuery = "SELECT * FROM events WHERE top_event = 1 ORDER BY event_date DESC LIMIT 3";
+$promotedEventsResult = $conn->query($promotedEventsQuery);
 ?>
+
 
 
 <!DOCTYPE html>
@@ -52,6 +55,29 @@ if (!isset($_SESSION['user_id'])) {
             <p class="lead">Discover, Participate, and Manage Events</p>
             <hr class="my-5">
             <p>Events Manager is a web application that allows users to discover, participate, and manage events.</p>
+        </div>
+
+     <!-- Promoted Events Section -->
+     <div class="container my-5">
+            <h2 class="text-center mb-4">Promoted Events</h2>
+            <div class="row">
+                <?php if ($promotedEventsResult->num_rows > 0): ?>
+                    <?php while($event = $promotedEventsResult->fetch_assoc()): ?>
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <img src="<?php echo htmlspecialchars($event['photo']); ?>" class="card-img-top" alt="Event Image">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title"><?php echo htmlspecialchars($event['name']); ?></h5>
+                                    <p class="card-text">Location: <?php echo htmlspecialchars($event['location']); ?></p>
+                                    <a href="event_details.php?id=<?php echo $event['id']; ?>" class="btn btn-primary">View more details</a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <p class="text-center">No promoted events found.</p>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 

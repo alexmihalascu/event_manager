@@ -38,9 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Handle attendance/unattendance
     if (isset($_POST['attend']) || isset($_POST['unattend'])) {
-        $attendanceSql = isset($_POST['attend']) ? 
-                         "INSERT INTO event_attendance (event_id, user_id) VALUES (?, ?)" :
-                         "DELETE FROM event_attendance WHERE event_id = ? AND user_id = ?";
+        $attendanceSql = isset($_POST['attend']) ?
+            "INSERT INTO event_attendance (event_id, user_id) VALUES (?, ?)" :
+            "DELETE FROM event_attendance WHERE event_id = ? AND user_id = ?";
         $attendanceStmt = $conn->prepare($attendanceSql);
         $attendanceStmt->bind_param("ii", $eventId, $userId);
         $attendanceStmt->execute();
@@ -82,6 +82,25 @@ $checkUserAttendance->bind_param("ii", $eventId, $_SESSION['user_id']);
 $checkUserAttendance->execute();
 $userHasAttended = ($checkUserAttendance->get_result()->num_rows > 0);
 $checkUserAttendance->close();
+
+// Check if an admin is updating the top event status
+if (isset($_POST['toggle_top_event']) && isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
+    $newTopEventStatus = $event['top_event'] ? 0 : 1;
+    $updateSql = "UPDATE events SET top_event = ? WHERE id = ?";
+    if ($updateStmt = $conn->prepare($updateSql)) {
+        $updateStmt->bind_param("ii", $newTopEventStatus, $eventId);
+        $updateStmt->execute();
+        $updateStmt->close();
+
+        // Re-fetch the event details after update
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $eventId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $event = $result->fetch_assoc();
+    }
+}
+
 ?>
 
 
@@ -132,6 +151,9 @@ $checkUserAttendance->close();
                                     <div class="admin-actions mb-2">
                                         <p class="card-text text-center"><strong>Admin:</strong></p>
                                         <p class="card-text"></p><strong>Number of Attendees:</strong> <?php echo $attendeeCount; ?></p>
+                                        <a href='toggle_top_event.php?event_id=<?php echo $eventId; ?>&top_event_status=<?php echo $event['top_event'] ? 0 : 1; ?>' class='btn btn-<?php echo $event['top_event'] ? 'warning' : 'success'; ?>'>
+                                            <?php echo $event['top_event'] ? 'Unmark as Top Event' : 'Mark as Top Event'; ?>
+                                        </a>
                                         <a href='edit_event.php?id=<?php echo $eventId; ?>' class='btn btn-secondary'>Edit Event</a>
                                         <a href='delete_event.php?id=<?php echo $eventId; ?>' class='btn btn-danger' onclick='return confirm("Are you sure you want to delete this event?");'>Delete Event</a>
                                     </div>
