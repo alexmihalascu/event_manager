@@ -154,6 +154,7 @@ if (isset($_POST['toggle_top_event']) && isset($_SESSION['is_admin']) && $_SESSI
                                         <a href='toggle_top_event.php?event_id=<?php echo $eventId; ?>&top_event_status=<?php echo $event['top_event'] ? 0 : 1; ?>' class='btn btn-<?php echo $event['top_event'] ? 'warning' : 'success'; ?>'>
                                             <?php echo $event['top_event'] ? 'Unmark as Top Event' : 'Mark as Top Event'; ?>
                                         </a>
+                                        <a href='attendance_list.php?event_id=<?php echo $eventId; ?>' class='btn btn-info'>View Attendees</a>
                                         <a href='edit_event.php?id=<?php echo $eventId; ?>' class='btn btn-secondary'>Edit Event</a>
                                         <a href='delete_event.php?id=<?php echo $eventId; ?>' class='btn btn-danger' onclick='return confirm("Are you sure you want to delete this event?");'>Delete Event</a>
                                     </div>
