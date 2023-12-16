@@ -185,7 +185,7 @@ if (isset($_POST['toggle_top_event']) && isset($_SESSION['is_admin']) && $_SESSI
                                         echo "<div class='comment'>";
                                         echo "<div class='comment-avatar'><img src='" . htmlspecialchars($avatarPath) . "' alt='User Avatar'></div>";
                                         echo "<div class='comment-content'>";
-                                        echo "<p><strong>" . htmlspecialchars($comment['username']) . ":</strong> " . htmlspecialchars($comment['comment']) . "</p>";
+                                        echo "<p><strong><a href='user_profile.php?user_id=" . $comment['user_id'] . "' style='color: inherit; text-decoration: none;'>" . htmlspecialchars($comment['username']) . "</a>:</strong> " . htmlspecialchars($comment['comment']) . "</p>";
                                         if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
                                             echo "<a href='delete_comment.php?comment_id=" . $comment['id'] . "' class='delete-comment' onclick='return confirm(\"Are you sure you want to delete this comment?\");'>Delete</a>";
                                         }

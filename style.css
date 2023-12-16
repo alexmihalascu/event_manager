@@ -538,3 +538,7 @@ a:hover {
       white-space: nowrap;
   }
 }
+
+.non-resizable {
+  resize : none;
+}
