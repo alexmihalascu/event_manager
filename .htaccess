@@ -1,0 +1,30 @@
+Options -Indexes
+RewriteEngine On
+RewriteBase /event_manager/
+
+# Static assets — pass through directly
+RewriteRule ^assets/         -  [L]
+RewriteRule ^uploads/         -  [L]
+RewriteRule ^includes/        -  [L]
+
+# index.php stays as-is
+RewriteRule ^$                index.php  [L]
+RewriteRule ^index\.php$      -          [L]
+RewriteRule ^navbar\.php$     -          [L]
+
+# Named routes → router.php (sets $_GET['_route'])
+RewriteRule ^login$           router.php?_route=login           [L,QSA]
+RewriteRule ^register$        router.php?_route=register        [L,QSA]
+RewriteRule ^logout$          router.php?_route=logout          [L,QSA]
+RewriteRule ^events$          router.php?_route=events          [L,QSA]
+RewriteRule ^events/([0-9]+)$ router.php?_route=event&id=$1    [L,QSA]
+RewriteRule ^my-events$       router.php?_route=my-events       [L,QSA]
+RewriteRule ^profile$         router.php?_route=profile         [L,QSA]
+RewriteRule ^profile/([0-9]+)$ router.php?_route=user&id=$1    [L,QSA]
+RewriteRule ^add-event$       router.php?_route=add-event       [L,QSA]
+RewriteRule ^edit-event$      router.php?_route=edit-event      [L,QSA]
+RewriteRule ^delete-event$    router.php?_route=delete-event    [L,QSA]
+RewriteRule ^users$           router.php?_route=users           [L,QSA]
+RewriteRule ^attendance$      router.php?_route=attendance      [L,QSA]
+RewriteRule ^delete-comment$  router.php?_route=delete-comment  [L,QSA]
+RewriteRule ^toggle-top$      router.php?_route=toggle-top      [L,QSA]

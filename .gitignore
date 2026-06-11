@@ -1,0 +1,10 @@
+.claude
+.DS_Store
+
+# Old CSS files superseded by assets/css/style.css
+home-style.css
+
+# Old dead PHP files superseded by pages/ and includes/
+display_comments.php
+add_comment.php
+previous_page.php
